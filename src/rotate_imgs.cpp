@@ -22,8 +22,7 @@
 //topics to be subscribed
 std::string g_left_image = "/stereo/left/image_raw";
 std::string g_right_image = "/stereo/right/image_raw";
-std::string g_left_cam_info = "/stereo/left/camera_info";
-std::string g_right_cam_info = "/stereo/right/camera_info";
+std::string g_depth_image = "/pico_flexx/image_mono8";
 
 sensor_msgs::ImagePtr rotateImg( const sensor_msgs::ImageConstPtr & msg, const bool rotateCCW, const bool rotateCW, const bool rotate180 )
 {
@@ -87,6 +86,7 @@ void workOnBag ( const std::string & bagFileName, const std::string & otherBagFi
   std::vector<std::string> topics;
   topics.push_back( g_left_image );
   topics.push_back( g_right_image );
+  topics.push_back( g_depth_image );
   
   rosbag::View view(bag, rosbag::TopicQuery(topics));
   
@@ -110,10 +110,13 @@ void workOnBag ( const std::string & bagFileName, const std::string & otherBagFi
     {
       newMessage = rotateImg(msg, rotateCCWLeft, rotateCWLeft, rotate180Left);
     }
-    
     if ( m.getTopic() == g_right_image )
     {
       newMessage = rotateImg(msg, rotateCCWRight, rotateCWRight, rotate180Right );
+    }
+    if ( m.getTopic() == g_depth_image )
+    {
+      newMessage = rotateImg(msg, false, false, false);
     }
     saveBag.write<sensor_msgs::Image>(m.getTopic(),m.getTime(),newMessage);
   }
