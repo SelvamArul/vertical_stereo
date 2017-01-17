@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
 	image_transport
 	cv_bridge
 	camera_calibration_parsers
+	rosbag
 )
 find_package(Boost REQUIRED COMPONENTS
 	thread
@@ -27,8 +28,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
 catkin_package()
 
 add_executable(vertical_stereo
-		src/vertical_stereo.cpp
+                src/vertical_stereo.cpp
 )
 target_link_libraries(vertical_stereo
-	${catkin_LIBRARIES} ${OpenCV_LIBS}
+        ${catkin_LIBRARIES} ${OpenCV_LIBS}
+)
+
+add_executable(rotate_imgs
+                src/rotate_imgs.cpp
+)
+target_link_libraries(rotate_imgs
+        ${catkin_LIBRARIES} ${OpenCV_LIBS}
 )
