@@ -45,7 +45,7 @@ ros::Publisher pub_right_cam_info;
  
 
 //  NOTE while publishing the modified data, and also frame id in the headers 
-// so that the TF is clean 
+// so that the TF is clean rotateCWRight, rotate180Left, rotate180Right
 void stereo_callback(const sensor_msgs::ImageConstPtr& left_msg,
 					 const sensor_msgs::ImageConstPtr& right_msg,
 					 const sensor_msgs::CameraInfoConstPtr& cam_info_left,
@@ -157,7 +157,8 @@ ros::init(argc, argv, "vertical_stereo");
 	pub_left_cam_info  = nh.advertise<sensor_msgs::CameraInfo>( g_v_left_cam_info, 1 );
 	pub_right_cam_info  = nh.advertise<sensor_msgs::CameraInfo>( g_v_right_cam_info, 1 );
 
-	sync.registerCallback(boost::bind(&stereo_callback, _1, _2, _3, _4));
+	
+	
 	
 	std::cout<<" vertical stereo running"<<std::endl;
 	ros::spin();
